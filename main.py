@@ -32,6 +32,12 @@ class PixivDownloader:
         # 使用DrissionPage打开Chrome并访问该网址
         self.page = Dp.ChromiumPage()
         self.page.get(url)
+
+        # 检查是否需要登录
+        login_check = self.page.ele('css:div.sc-860d04ea-1.fGipbA')
+        if login_check:
+            self.logger.info("需要登录，正在跳转登录页面...")
+            input("请手动完成登录操作，然后按Enter键继续...")
         
         # 查找button标签、class为sc-e3cb8b83-0 LDEei的元素
         button_element = self.page.ele('css:button.sc-e3cb8b83-0.LDEei')
