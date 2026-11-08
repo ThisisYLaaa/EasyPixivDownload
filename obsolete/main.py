@@ -12,6 +12,11 @@ from Logger import get_logger
 # 禁用drissionpage的日志输出
 logging.getLogger('DrissionPage').setLevel(logging.CRITICAL)
 
+EXPANED_CLASS: str = 'css:button.sc-f8e29b57-0.gQrBQw'
+PIC_CLASS: str = 'css:a.sc-fddeba56-3.cbztnE.gtm-expand-full-size-illust'
+TITLE_CLASS: str = 'css:h1.sc-1c59fe48-3.dVINCW'
+
+
 class PixivDownloader:
     def __init__(self):
         # 创建logger实例
@@ -39,8 +44,8 @@ class PixivDownloader:
             self.logger.info("需要登录，正在跳转登录页面...")
             input("请手动完成登录操作，然后按Enter键继续...")
         
-        # 查找button标签、class为sc-e3cb8b83-0 LDEei的元素
-        button_element = self.page.ele('css:button.sc-e3cb8b83-0.LDEei')
+        # 查找button标签、class为EXPANED_CLASS的元素
+        button_element = self.page.ele(EXPANED_CLASS)
         if button_element:
             self.logger.info("找到按钮，正在点击...")
             button_element.click()
@@ -49,8 +54,8 @@ class PixivDownloader:
         else:
             self.logger.info("未找到按钮，跳过点击步骤")
         
-        # 查找所有a标签、class为"sc-440d5b2c-3 jpNsVx gtm-expand-full-size-illust"的元素
-        elements = self.page.eles('css:a.sc-440d5b2c-3.jpNsVx.gtm-expand-full-size-illust')
+        # 查找所有a标签、class为PIC_CLASS的元素
+        elements = self.page.eles(PIC_CLASS)
         href_list = [element.attr('href') for element in elements]  # pyright: ignore[reportGeneralTypeIssues]
         
         # 打印提取的链接，用于调试
@@ -58,8 +63,8 @@ class PixivDownloader:
         for link in href_list:
             self.logger.debug(f"链接: {link}")
         
-        # 查找h1标签、class为"sc-965e5f82-3 kANgwp"的元素
-        title_element = self.page.ele('css:h1.sc-965e5f82-3.kANgwp')
+        # 查找h1标签、class为TITLE_CLASS的元素
+        title_element = self.page.ele(TITLE_CLASS)
         title = title_element.text if title_element else "untitled"
         self.logger.info(f"作品标题: {title}")
         
@@ -125,5 +130,13 @@ class PixivDownloader:
         print(f"\r[{bar}] {self.completed_files}/{self.total_files} ({progress:.1f}%) 速度: {speed:.2f} 图片/秒", end="")
 
 if __name__ == "__main__":
+    print(f"{'='*50}")
+    print(r""" _____   ___   ___   _   _  
+| _,\ `v' | \_/ / | | \ / | 
+| v_/`. .' > , <| |_`\ V /' 
+|_|   !_! /_/ \_\___| \_/   
+Author: Leaked翼龙 https://space.bilibili.com/616045770
+使用方法: 输入pixiv作品网址, 必要情况时需要登录(r18作品)""")
+    print(f"{'='*50}")
     downloader = PixivDownloader()
     downloader.run()
