@@ -1,2 +1,29 @@
+# ============================================================
+# EasyPixivDownload / .gitignore
+# 只提交源码、文档与配置模板；下载素材与本地凭证一律不入库。
+# ============================================================
+
+# ---- Python ----
 __pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+env/
+
+# ---- 下载产物（按作品建子目录，体积可达数 GB，绝不入库）----
 download/
+
+# ---- 本地配置与登录凭证（含 Cookie，等同账号权限）----
+# 真实配置由程序在首次登录/保存时生成；仓库只保留模板 pixiv_config.example.json
+pixiv_config.json
+config.json
+
+# obsolete/ 里保留一份 v1 的 config.json 作为历史归档（允许提交）
+!obsolete/config.json
+
+# ---- 调试残留 ----
+# test.html 等页面抓取结果、根目录临时 html 片段
+test.html
+/*.html
